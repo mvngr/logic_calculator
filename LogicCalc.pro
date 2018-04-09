@@ -27,12 +27,16 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     contenteditor.cpp \
-    inputeditor.cpp
+    inputeditor.cpp \
+    logic.cpp \
+    variable.cpp
 
 HEADERS += \
         mainwindow.h \
     contenteditor.h \
-    inputeditor.h
+    inputeditor.h \
+    logic.h \
+    variable.h
 
 FORMS += \
         mainwindow.ui

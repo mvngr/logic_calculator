@@ -14,11 +14,12 @@ class InputEditor
 public:
     InputEditor(QLineEdit *input);
 
+    QList<QString> AVIABLE_WORDS;
+    QMap<QString,QString> AVIABLE_TRANSFORMATIONS;
+
     void PushBack(QString str);
     QString toString();
     void parse(QString str);
-    QList<QString> AVIABLE_WORDS;
-    QMap<QString,QString> AVIABLE_TRANSFORMATIONS;
 
 private:
     QLineEdit *input_;

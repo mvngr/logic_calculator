@@ -11,10 +11,13 @@ void InputEditor::PushBack(QString str){
         parse(input_->text());
     v_->push_back(str);
     updateInput();
+    return;
 }
 void InputEditor::fillConsts(){
-    AVIABLE_WORDS << "*" << "+" << "!" << "^" << "->" << "<-" << "~" << "|" << "#";
-
+    AVIABLE_WORDS << "*" << "+" << "!" << "^" << "->" << "<-" << "~" << "|" << "#"
+                  << "A" << "B" << "C" << "D" << "E" << "F" << "G" << "X" << "Y" << "Z"
+                  << "a" << "b" << "c" << "d" << "e" << "f" << "g" << "x" << "y" << "z"
+                  << "(" << ")";
     AVIABLE_TRANSFORMATIONS["conjunction"] = "*";
     AVIABLE_TRANSFORMATIONS["disjunction"] = "+";
     AVIABLE_TRANSFORMATIONS["exclusive_disjunction"] = "^";
@@ -24,10 +27,11 @@ void InputEditor::fillConsts(){
     AVIABLE_TRANSFORMATIONS["converse"] = "<-";
     AVIABLE_TRANSFORMATIONS["equivalent"] = "~";
     AVIABLE_TRANSFORMATIONS["negation"] = "!";
-
+    return;
 }
 void InputEditor::updateInput(){
     input_->setText(toString());
+    return;
 }
 QString InputEditor::toString(){
     QString res;

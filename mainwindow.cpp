@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     connectQss();
     ui->setupUi(this);
-    ie = new InputEditor(ui->input);
+    ie_ = new InputEditor(ui->input);
+    ce_ = new ContentEditor(ui->result);
     ui->input->setFocus();
     bindConnect();
 }
@@ -17,22 +18,20 @@ MainWindow::~MainWindow()
     delete ui;
 }
 void MainWindow::inputPressed(){
-    ie->parse(ui->input->text());
+    ie_->parse(ui->input->text());
+    return;
 }
 void MainWindow::connectQss(){
     QFile styleF;
-
     styleF.setFileName("C:/Users/Mike/Documents/Qt/LogicCalc/qss/style.css");
     styleF.open(QFile::ReadOnly);
-    QString qssStr = styleF.readAll();
-
-    qApp->setStyleSheet(qssStr);
+    qApp->setStyleSheet(styleF.readAll());
     return;
 }
 void MainWindow::onClicked()
 {
     QPushButton* pButton = qobject_cast<QPushButton*>(sender()); //get sender button
-    ie->PushBack(ie->AVIABLE_TRANSFORMATIONS[pButton->objectName()]);
+    ie_->PushBack(ie_->AVIABLE_TRANSFORMATIONS[pButton->objectName()]);
     return;
 }
 void MainWindow::bindConnect(){

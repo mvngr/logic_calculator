@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QDebug>
 #include <inputeditor.h>
+#include <contenteditor.h>
+#include <variable.h>
 
 namespace Ui {
 class MainWindow;
@@ -24,7 +26,8 @@ private slots:
 
 private:
     void connectQss();
-    InputEditor *ie;
+    InputEditor *ie_;
+    ContentEditor *ce_;
 };
 
 #endif // MAINWINDOW_H
