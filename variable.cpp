@@ -1,18 +1,24 @@
 #include "variable.h"
 
-Variable::Variable(char name){
+Variable::Variable(QChar name){
     setName(name);
     vars_ = new QList<bool>;
 }
-Variable::Variable(char name, QList<bool> * vars){
+Variable::Variable(QChar name, QList<bool> * vars){
     setName(name);
     setVars(vars);
 }
-Variable::Variable(char name, int numberVariables, int positionVariable){
+Variable::Variable(QChar name, int numberVariables, int positionVariable){
     setName(name);
     setVars(numberVariables, positionVariable);
 }
-void Variable::setName(char name){
+Variable & Variable::operator=(Variable & v)
+{
+    name_ = v.name_;
+    vars_ = v.vars_;
+    return *this;
+}
+void Variable::setName(QChar name){
     name_ = name;
     return;
 }
@@ -20,12 +26,12 @@ void Variable::setVars(QList<bool> *vars){
     vars_ = vars;
     return;
 }
-void Variable::setVars(int numberVariables, int positionVariable){
+void Variable::setVars(int index, int size){
     vars_ = new QList<bool>;
     int switcherCounter = 0;
     bool switcher = false;
-    for(int i = 0; i < pow2(numberVariables); i++){
-        if(switcherCounter < pow2(numberVariables - positionVariable - 1)) // swap 0 1 2 3 to 3 2 1 0 for easy calculations
+    for(int i = 0; i < pow2(size); i++){
+        if(switcherCounter < pow2(size - index - 1)) // swap 0 1 2 3 to 3 2 1 0 for easy calculations
             switcherCounter++;
         else{
             switcher = !switcher;
@@ -35,7 +41,7 @@ void Variable::setVars(int numberVariables, int positionVariable){
     }
     return;
 }
-char Variable::getName(){
+QChar Variable::getName(){
     return name_;
 }
 QList<bool> *Variable::getVars(){

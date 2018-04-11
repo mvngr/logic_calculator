@@ -29,6 +29,9 @@ void InputEditor::fillConsts(){
     AVIABLE_TRANSFORMATIONS["negation"] = "!";
     return;
 }
+QList<QString> * InputEditor::getVars(){
+    return v_;
+}
 void InputEditor::updateInput(){
     input_->setText(toString());
     return;
@@ -42,7 +45,7 @@ QString InputEditor::toString(){
 bool InputEditor::isValidity(){
     return input_->text() == toString();
 }
-void InputEditor::parse(QString str){
+bool InputEditor::parse(QString str){
     QList<int> *errors = new QList<int>;
     QStringList sl = str.trimmed().split(QRegExp("\\s"));
     for(int i = 0; i < sl.count(); i++)
@@ -59,6 +62,7 @@ void InputEditor::parse(QString str){
         for(int i = 0; i < errors->length(); i++)
             msg.append("\"").append(sl[errors->at(i)]).append("\" ");
         QMessageBox::information(NULL, "Ошибка", msg);
+        return false;
     }
-    return;
+    return true;
 }

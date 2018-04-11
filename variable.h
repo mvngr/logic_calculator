@@ -2,27 +2,29 @@
 #define VARIABLE_H
 #include <QList>
 #include <QDebug>
+#include <QChar>
 
 class Variable
 {
 public:
-    Variable(char name);
-    Variable(char name, int numberVariables, int positionVariable);
-    Variable(char name, QList<bool> *vars);
+    Variable(QChar name);
+    Variable(QChar name, int numberVariables, int positionVariable);
+    Variable(QChar name, QList<bool> *vars);
 
     //operations
+    Variable & operator=(Variable & v);
 
-    void setName(char name);
+    void setName(QChar name);
     void setVars(QList<bool> *vars);
-    void setVars(int numberVariables, int positionVariable);
+    void setVars(int index, int size);
 
-    char getName();
+    QChar getName();
     QList<bool> *getVars();
 
 private:
     void debugVars();
     int pow2(int power);
-    char name_;
+    QChar name_;
     QList<bool> *vars_;
 };
 

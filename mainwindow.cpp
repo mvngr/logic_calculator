@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connectQss();
     ui->setupUi(this);
     ie_ = new InputEditor(ui->input);
-    ce_ = new ContentEditor(ui->result);
+    logic_ = new Logic(ui->result);
     ui->input->setFocus();
     bindConnect();
 }
@@ -46,4 +46,12 @@ void MainWindow::bindConnect(){
     connect(ui->equivalent, SIGNAL(clicked()), this, SLOT(onClicked()));
     connect(ui->negation, SIGNAL(clicked()), this, SLOT(onClicked()));
     return;
+}
+
+void MainWindow::on_compute_clicked()
+{
+    bool isCorrect = ie_->parse(ui->input->text());
+    if(isCorrect)
+        logic_->setVars(ie_->getVars());
+
 }

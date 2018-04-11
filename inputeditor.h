@@ -19,7 +19,8 @@ public:
 
     void PushBack(QString str);
     QString toString();
-    void parse(QString str);
+    bool parse(QString str);
+    QList<QString> * getVars();
 
 private:
     QLineEdit *input_;

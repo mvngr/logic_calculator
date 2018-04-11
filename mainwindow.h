@@ -4,8 +4,8 @@
 #include <QMainWindow>
 #include <QDebug>
 #include <inputeditor.h>
-#include <contenteditor.h>
 #include <variable.h>
+#include <logic.h>
 
 namespace Ui {
 class MainWindow;
@@ -24,10 +24,12 @@ private slots:
     void onClicked();
     void bindConnect();
 
+    void on_compute_clicked();
+
 private:
     void connectQss();
     InputEditor *ie_;
-    ContentEditor *ce_;
+    Logic *logic_;
 };
 
 #endif // MAINWINDOW_H
