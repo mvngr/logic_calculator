@@ -7,6 +7,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     connectQss();
     ui->setupUi(this);
+    QList<bool> tempList = * new QList<bool>{true, true, false, false};
+    QList<bool> tempList2 = * new QList<bool>{true, false, true, false};
+    QChar c = 'a', c2 = 'b';
+    Variable v = * new Variable(c, &tempList);
+    Variable v2 = * new Variable(c2, &tempList2);
+    Variable v3 = v.disjunction(v2);
+
     ie_ = new InputEditor(ui->input);
     logic_ = new Logic(ui->result);
     ui->input->setFocus();
@@ -18,7 +25,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 void MainWindow::inputPressed(){
-    ie_->parse(ui->input->text());
+    on_compute_clicked();
     return;
 }
 void MainWindow::connectQss(){
@@ -51,7 +58,9 @@ void MainWindow::bindConnect(){
 void MainWindow::on_compute_clicked()
 {
     bool isCorrect = ie_->parse(ui->input->text());
-    if(isCorrect)
+    if(isCorrect){
         logic_->setVars(ie_->getVars());
-
+        logic_->compute();
+    }
+    return;
 }

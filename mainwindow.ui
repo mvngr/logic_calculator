@@ -29,6 +29,9 @@
       </item>
       <item row="2" column="0" rowspan="3">
        <widget class="QPlainTextEdit" name="result">
+        <property name="cursor" stdset="0">
+         <cursorShape>IBeamCursor</cursorShape>
+        </property>
         <property name="plainText">
          <string/>
         </property>

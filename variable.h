@@ -8,24 +8,35 @@ class Variable
 {
 public:
     Variable(QChar name);
+    Variable(QString name);
     Variable(QChar name, int numberVariables, int positionVariable);
     Variable(QChar name, QList<bool> *vars);
 
-    //operations
-    Variable & operator=(Variable & v);
+    //Some logical operations cannot be easily converted to statements
+    //Therefore, operators have replaced by basic functions
+    Variable conjunction(Variable other);
+    Variable disjunction(Variable other);
+    Variable implication(Variable other);
+    Variable converse(Variable other);
+    Variable notAnd(Variable other);
+    Variable notOr(Variable other);
+    Variable exclusiveDisjunction(Variable other);
+    Variable equivalent(Variable other);
+    Variable negation();
 
-    void setName(QChar name);
-    void setVars(QList<bool> *vars);
+    void setName(QString name);
+    void setVars(QList<bool> vars);
     void setVars(int index, int size);
 
-    QChar getName();
-    QList<bool> *getVars();
+    QString getName();
+    QList<bool> getVars();
 
 private:
     void debugVars();
     int pow2(int power);
-    QChar name_;
-    QList<bool> *vars_;
+    QString makeName(QString first, QString operation, QString second);
+    QString name_;
+    QList<bool> vars_;
 };
 
 #endif // VARIABLE_H

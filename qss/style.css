@@ -32,6 +32,9 @@ QPlainTextEdit:hover, QLineEdit:hover{
 QPlainTextEdit:focus, QLineEdit:focus{
     border: 1px solid #aaa;
 }
+QPlainTextEdit{
+    font-family: 'Courier';
+}
 QPushButton#exclusive_disjunction{
     font-size: 16pt;
     padding: 0em;

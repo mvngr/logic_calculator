@@ -60,7 +60,7 @@ bool InputEditor::parse(QString str){
         QString msg;
         msg.append("Неправильный синтаксис: ");
         for(int i = 0; i < errors->length(); i++)
-            msg.append("\"").append(sl[errors->at(i)]).append("\" ");
+            msg.append("\" ").append(sl[errors->at(i)]).append(" \", ");
         QMessageBox::information(NULL, "Ошибка", msg);
         return false;
     }
