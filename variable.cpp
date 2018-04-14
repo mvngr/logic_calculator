@@ -65,22 +65,23 @@ Variable Variable::notOr(Variable other){
     return v;
 }
 Variable Variable::exclusiveDisjunction(Variable other){
-    Variable v = * new Variable(makeName(getName(), " # ", other.getName()));
-    QList<bool> temp = * new QList<bool>;
-    for(int i = 0; i < vars_.size(); i++)
-        temp.push_back(vars_[i] == other.getVars()[i] ? true : false);
-    v.setVars(temp);
-    return v;
-}
-Variable Variable::equivalent(Variable other){
-    Variable v = * new Variable(makeName(getName(), " # ", other.getName()));
+    Variable v = * new Variable(makeName(getName(), " ^ ", other.getName()));
     QList<bool> temp = * new QList<bool>;
     for(int i = 0; i < vars_.size(); i++)
         temp.push_back(vars_[i] == other.getVars()[i] ? false : true);
     v.setVars(temp);
     return v;
 }
+Variable Variable::equivalent(Variable other){
+    Variable v = * new Variable(makeName(getName(), " ~ ", other.getName()));
+    QList<bool> temp = * new QList<bool>;
+    for(int i = 0; i < vars_.size(); i++)
+        temp.push_back(vars_[i] == other.getVars()[i] ? true : false);
+    v.setVars(temp);
+    return v;
+}
 Variable Variable::negation(){
+    setName(* new QString("! " + getName()));
     for(int i = 0; i < vars_.size(); i++)
         vars_[i] = !vars_[i];
     return *this;
