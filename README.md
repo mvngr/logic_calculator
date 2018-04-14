@@ -5,11 +5,11 @@
 * Вывод таблицы истинности для выражения(пока что без использования скобок)
 
 Описания классов:
-* [MainWindwow](https://github.com/mvngr/logic_calculator/readme.md/#mainwindow)
-* [InputEditor](https://github.com/mvngr/logic_calculator/readme.md/#inputeditor)
-* [Logic](https://github.com/mvngr/logic_calculator/readme.md/#logic)
-* [ContentEditor](https://github.com/mvngr/logic_calculator/readme.md/#contenteditor)
-* [Variable](https://github.com/mvngr/logic_calculator/readme.md/#variable)
+* [MainWindwow](https://github.com/mvngr/logic_calculator/tree/master#mainwindow)
+* [InputEditor](https://github.com/mvngr/logic_calculator/tree/master#inputeditor)
+* [Logic](https://github.com/mvngr/logic_calculator/tree/master#logic)
+* [ContentEditor](https://github.com/mvngr/logic_calculator/tree/master#contenteditor)
+* [Variable](https://github.com/mvngr/logic_calculator/tree/master#variable)
 
 ## Классы, методы и переменные, которые использует калькулятор:
 
