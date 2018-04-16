@@ -17,21 +17,21 @@ public:
     ~Logic();
     void setVars(QList<QString> *v);
     void compute();
-    void computeLogicalAction();
+    void computeLogicalAction(QList<QString> *v);
     QList<QString> getVarsTitle();
     QList<QList<bool>> getVarsData();
 
 private:
     void negation(QList<QString> *v);
-    void negationFunc();
-
+    void findBrackets(QList<QString> *v);
+    QList<QString> * subString(QList<QString> *v, int begin, int end);
     void binaryOperation(QList<QString> *v, QString operation);
     void fillOperations();
     QMap<QString, QString> BINARY_OPERATIONS_;
     QMap<QString, int> BINARY_OPERATIONS_TO_NUM_;
 
     void showError(QString logicOperation, QString error);
-    void insertWithReplace(Variable v, int begin, int end);
+    void insertWithReplace(QList<QString> *v, Variable variable, int begin, int end);
     Variable getVariable(QString name);
 
     void fillVars();

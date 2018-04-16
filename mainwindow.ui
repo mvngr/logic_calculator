@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Logic Calculator</string>
+   <string>Логический калькулятор</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -46,6 +46,9 @@
         </property>
         <property name="sizeAdjustPolicy">
          <enum>QAbstractScrollArea::AdjustIgnored</enum>
+        </property>
+        <property name="lineWrapMode">
+         <enum>QPlainTextEdit::NoWrap</enum>
         </property>
         <property name="readOnly">
          <bool>true</bool>
@@ -213,7 +216,7 @@
       <item row="0" column="1">
        <widget class="QPushButton" name="compute">
         <property name="text">
-         <string>Compute</string>
+         <string>Вычислить</string>
         </property>
        </widget>
       </item>

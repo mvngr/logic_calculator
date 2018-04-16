@@ -11,7 +11,6 @@ Logic::Logic(QList<QString> *v, QPlainTextEdit *output)
     vars_ = *new QList<Variable>;
     ce_ = new ContentEditor(output);
     map_ = * new QMap<QString, int>;
-
     setVars(v);
 }
 Logic::~Logic(){
@@ -23,8 +22,8 @@ Logic::~Logic(){
 void Logic::setVars(QList<QString> *v){
     v_ = v;
     fillOperations();
-    sortVars();
     fillVars();
+    sortVars();
     fillMap();
     makeBoolArrays();
 }
@@ -46,37 +45,35 @@ void Logic::fillOperations(){
     BINARY_OPERATIONS_TO_NUM_["exclusiveDisjunction"] = 6;
     BINARY_OPERATIONS_TO_NUM_["notAnd"] = 7;
     BINARY_OPERATIONS_TO_NUM_["notOr"] = 8;
+
+    AVIABLE_NAME_OF_VARS_ << "A" << "B" << "C" << "D" << "E" << "F" << "G" << "X" << "Y" << "Z"
+                          << "a" << "b" << "c" << "d" << "e" << "f" << "g" << "x" << "y" << "z";
     return;
 }
 void Logic::compute(){
-    computeLogicalAction();
+    computeLogicalAction(v_);
     ce_->printTruthTable(getVarsTitle(), getVarsData());
     return;
 }
-void Logic::computeLogicalAction(){
-    negation(v_);
-    binaryOperation(v_, "*");
-    binaryOperation(v_, "+");
-    binaryOperation(v_, "|");
-    binaryOperation(v_, "#");
-    binaryOperation(v_, "->");
-    binaryOperation(v_, "^");
-    binaryOperation(v_, "<-");
-    binaryOperation(v_, "~");
-    /*implication();
-    equivalent();
-    notAnd();
-    notOr();
-    exclusiveDisjunction();
-    negationFunc();*/
+void Logic::computeLogicalAction(QList<QString> *v){
+    findBrackets(v);
+    negation(v);
+    binaryOperation(v, "*");
+    binaryOperation(v, "+");
+    binaryOperation(v, "|");
+    binaryOperation(v, "#");
+    binaryOperation(v, "->");
+    binaryOperation(v, "^");
+    binaryOperation(v, "<-");
+    binaryOperation(v, "~");
     return;
 }
 void Logic::negation(QList<QString> *v){
-    for(int i = 0; i < v_->length(); i++)
+    for(int i = 0; i < v->length(); i++)
         if(v->at(i) == "!" && i + 1 != v->length() && map_.contains(v->at(i + 1))){
             Variable newVar = getVariable(v->at(i + 1)).negation();
             if(newVar.getName() != "NULL")
-                insertWithReplace(newVar, i, i+1);
+                insertWithReplace(v, newVar, i, i+1);
         }
     return;
 }
@@ -98,21 +95,48 @@ void Logic::binaryOperation(QList<QString> *v, QString operation){
             default: break;
             }
             if(newVar.getName() != "NULL")
-                insertWithReplace(newVar, i-1, i+1);
+                insertWithReplace(v, newVar, i-1, i+1);
             else
                 showError(* new QString("бинарная операция"), * new QString("Ошибка в чтении бинарной операции" + operation));
             i--;
         }
     return;
 }
-void Logic::insertWithReplace(Variable v, int begin, int end){
-    if(!map_.contains(v.getName())){
-        vars_.push_back(v);
-        map_[v.getName()] = vars_.length() - 1;
+void Logic::findBrackets(QList<QString> *v){
+    QList<int> bracket_ind = * new QList<int>;
+    for(int i = 0; i < v->length(); i++){
+        if(v->at(i) == "(")
+            bracket_ind.push_back(i);
+        if(v->at(i) == ")"){
+            QList<QString> *new_v = subString(v, bracket_ind.last() + 1, i - 1);
+            computeLogicalAction(new_v);
+            for(int n = bracket_ind.last(); n <= i; n++)
+                v->removeAt(bracket_ind.last());
+            QString new_name = * new QString("( " + new_v->at(0) + " )");
+            v->insert(bracket_ind.last(), new_name);
+            map_[new_name] = map_[new_v->at(0)];
+            vars_[map_[new_name]].setName(new_name);
+            i = bracket_ind.last() + 1;
+            bracket_ind.removeLast();
+        }
+    }
+    return;
+}
+QList<QString> * Logic::subString(QList<QString> *v, int begin, int end){
+    QList<QString> * new_v = new QList<QString>;
+    do
+        new_v->push_back(v->at(begin));
+    while(begin++ < end);
+    return new_v;
+}
+void Logic::insertWithReplace(QList<QString> *v, Variable variable, int begin, int end){
+    if(!map_.contains(variable.getName())){
+        vars_.push_back(variable);
+        map_[variable.getName()] = vars_.length() - 1;
     }
     for(int i = begin; i <= end; i++)
-        v_->removeAt(begin);
-    v_->insert(begin, v.getName());
+        v->removeAt(begin);
+    v->insert(begin, variable.getName());
     return;
 }
 Variable Logic::getVariable(QString name){
@@ -124,8 +148,6 @@ void Logic::showError(QString logicOperation, QString error){
 }
 void Logic::fillVars(){
     vars_.clear();
-    AVIABLE_NAME_OF_VARS_ << "A" << "B" << "C" << "D" << "E" << "F" << "G" << "X" << "Y" << "Z"
-                          << "a" << "b" << "c" << "d" << "e" << "f" << "g" << "x" << "y" << "z";
     for(int i = 0; i < v_->length(); i++){
         QChar c = v_->at(i).at(0);
         if(AVIABLE_NAME_OF_VARS_.indexOf(v_->at(i)) != -1 && !isRepeat( &c )){
