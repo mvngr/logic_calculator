@@ -64,3 +64,23 @@ void MainWindow::on_compute_clicked()
     }
     return;
 }
+
+void MainWindow::on_f5_clicked()
+{
+    bool isCorrect = ie_->parse(ui->input->text());
+    if(isCorrect){
+        logic_->setVars(ie_->getVars());
+        logic_->makeSKNF();
+    }
+    return;
+}
+
+void MainWindow::on_f4_clicked()
+{
+    bool isCorrect = ie_->parse(ui->input->text());
+    if(isCorrect){
+        logic_->setVars(ie_->getVars());
+        logic_->makeSDNF();
+    }
+    return;
+}

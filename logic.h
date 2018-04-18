@@ -20,6 +20,8 @@ public:
     void computeLogicalAction(QList<QString> *v);
     QList<QString> getVarsTitle();
     QList<QList<bool>> getVarsData();
+    void makeSKNF();
+    void makeSDNF();
 
 private:
     void negation(QList<QString> *v);

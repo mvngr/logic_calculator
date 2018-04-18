@@ -68,3 +68,11 @@ QString ContentEditor::makeData(QList<QList<bool>> data){
     }
     return result;
 }
+void ContentEditor::printSKNF(QString sknf){
+    pte_->setPlainText(pte_->toPlainText() + "\n\nСКНФ: " + sknf);
+    return;
+}
+void ContentEditor::printSDNF(QString sdnf){
+    pte_->setPlainText(pte_->toPlainText() + "\n\nСДНФ: " + sdnf);
+    return;
+}

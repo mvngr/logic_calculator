@@ -11,6 +11,8 @@ class ContentEditor
 public:
     ContentEditor(QPlainTextEdit *plainTextEdit);
     void printTruthTable(QList<QString> title, QList<QList<bool> > data);
+    void printSKNF(QString sknf);
+    void printSDNF(QString sdnf);
 private:
     QPlainTextEdit *pte_;
     QList<int> cellSize_;

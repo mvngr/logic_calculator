@@ -102,6 +102,56 @@ void Logic::binaryOperation(QList<QString> *v, QString operation){
         }
     return;
 }
+void Logic::makeSKNF(){
+    compute();
+    if(vars_.length() != 0){
+        QString ans = * new QString;
+        int num = vars_[0].getVars().length();
+        int degree = 0;
+        while (num != 1){
+            degree++;
+            num /= 2;
+        }
+        QList<bool> truthTable = vars_.last().getVars();
+        for(int i = 0; i < truthTable.length(); i++)
+            if(truthTable[i] == false){
+                ans += "( ";
+                for(int j = 0; j < degree; j++)
+                    ans += j + 1 != degree ? (vars_[j].getVars()[i] ? "! " + vars_[j].getName() : vars_[j].getName())  + " + "
+                                           : (vars_[j].getVars()[i] ? "! " + vars_[j].getName() : vars_[j].getName());
+                ans += " ) * ";
+            }
+        if(ans.length() != 0) // clear last " * "
+            ans.remove(ans.length() - 3, 2);
+        ce_->printSKNF(ans);
+    }
+    return;
+}
+void Logic::makeSDNF(){
+    compute();
+    if(vars_.length() != 0){
+        QString ans = * new QString;
+        int num = vars_[0].getVars().length();
+        int degree = 0;
+        while (num != 1){
+            degree++;
+            num /= 2;
+        }
+        QList<bool> truthTable = vars_.last().getVars();
+        for(int i = 0; i < truthTable.length(); i++)
+            if(truthTable[i] == true){
+                ans += "( ";
+                for(int j = 0; j < degree; j++)
+                    ans += j + 1 != degree ? (vars_[j].getVars()[i] ? vars_[j].getName() : "! " + vars_[j].getName())  + " * "
+                                           : (vars_[j].getVars()[i] ? vars_[j].getName() : "! " + vars_[j].getName());
+                ans += " ) + ";
+            }
+        if(ans.length() != 0) // clear last " + "
+            ans.remove(ans.length() - 3, 2);
+        ce_->printSDNF(ans);
+    }
+    return;
+}
 void Logic::findBrackets(QList<QString> *v){
     QList<int> bracket_ind = * new QList<int>;
     for(int i = 0; i < v->length(); i++){

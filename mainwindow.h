@@ -26,6 +26,10 @@ private slots:
 
     void on_compute_clicked();
 
+    void on_f5_clicked();
+
+    void on_f4_clicked();
+
 private:
     void connectQss();
     InputEditor *ie_;
