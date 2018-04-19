@@ -166,7 +166,7 @@ void Logic::findBrackets(QList<QString> *v){
             v->insert(bracket_ind.last(), new_name);
             map_[new_name] = map_[new_v->at(0)];
             vars_[map_[new_name]].setName(new_name);
-            i = bracket_ind.last() + 1;
+            i = bracket_ind.last();
             bracket_ind.removeLast();
         }
     }
