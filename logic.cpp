@@ -157,7 +157,7 @@ void Logic::findBrackets(QList<QString> *v){
     for(int i = 0; i < v->length(); i++){
         if(v->at(i) == "(")
             bracket_ind.push_back(i);
-        if(v->at(i) == ")"){
+        if(v->at(i) == ")" && bracket_ind.length() > 0){
             QList<QString> *new_v = subString(v, bracket_ind.last() + 1, i - 1);
             computeLogicalAction(new_v);
             for(int n = bracket_ind.last(); n <= i; n++)

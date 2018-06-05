@@ -47,3 +47,6 @@ DISTFILES += \
     icon.ico
 
 RC_FILE     = resources.rc
+
+RESOURCES += \
+    resources.qrc

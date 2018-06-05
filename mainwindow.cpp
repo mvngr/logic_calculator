@@ -30,7 +30,7 @@ void MainWindow::inputPressed(){
 }
 void MainWindow::connectQss(){
     QFile styleF;
-    styleF.setFileName("C:/Users/Mike/Documents/Qt/LogicCalc/qss/style.css");
+    styleF.setFileName(":/qss/qss/style.css");
     styleF.open(QFile::ReadOnly);
     qApp->setStyleSheet(styleF.readAll());
     return;

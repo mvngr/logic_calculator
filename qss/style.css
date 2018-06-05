@@ -48,3 +48,15 @@ QMessageBox{
 QMessageBox * {
     color: white;
 }
+#header{
+    background-color: #222;
+}
+#header > QPushButton{
+    font-size: 6pt;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+}
+#exitBtn{
+    background-color: #f00;
+}
