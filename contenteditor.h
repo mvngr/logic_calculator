@@ -1,10 +1,9 @@
 #ifndef CONTENTEDITOR_H
 #define CONTENTEDITOR_H
+
 #include <QList>
 #include <QString>
 #include <QPlainTextEdit>
-#include <QDebug>
-
 
 class ContentEditor
 {

@@ -36,8 +36,7 @@ HEADERS += \
     contenteditor.h \
     inputeditor.h \
     logic.h \
-    variable.h \
-    resources.rc
+    variable.h
 
 FORMS += \
         mainwindow.ui
@@ -45,8 +44,6 @@ FORMS += \
 DISTFILES += \
     qss/style.css \
     icon.ico
-
-RC_FILE     = resources.rc
 
 RESOURCES += \
     resources.qrc
