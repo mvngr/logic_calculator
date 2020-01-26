@@ -1,33 +1,45 @@
 #ifndef INPUTEDITOR_H
 #define INPUTEDITOR_H
-#include <QString>
+
 #include <QStringList>
-#include <QList>
 #include <QLineEdit>
-#include <mainwindow.h>
 #include <QMessageBox>
 #include <QMap>
-
 
 class InputEditor
 {
 public:
     InputEditor(QLineEdit *input);
+    ~InputEditor();
 
-    QList<QString> AVIABLE_WORDS;
-    QMap<QString,QString> AVIABLE_TRANSFORMATIONS;
+    const QList<QString> AVIABLE_WORDS {
+        "*" , "+" , "!" , "^" , "->" , "<-" , "~" , "|" , "#",
+        "A" , "B" , "C" , "D" , "E" , "F" , "G" , "X" , "Y" , "Z",
+        "a" , "b" , "c" , "d" , "e" , "f" , "g" , "x" , "y" , "z",
+        "(" , ")"
+    };
+    const QMap<QString,QString> AVIABLE_TRANSFORMATIONS {
+        {"conjunction", "*"},
+        {"disjunction", "+"},
+        {"exclusive_disjunction", "^"},
+        {"not_and", "|"},
+        {"not_or", "#"},
+        {"implication", "->"},
+        {"converse", "<-"},
+        {"equivalent", "~"},
+        {"negation", "!"}
+    };
 
-    void PushBack(QString str);
-    QString toString();
+    void pushBack(const QString str);
+    QString toString() const;
     bool parse(QString str);
-    QList<QString> * getVars();
+    QList<QString> *getVars();
 
 private:
     QLineEdit *input_;
     QList<QString> *v_;
     void updateInput();
-    void fillConsts();
-    bool isValidity();
+    bool isValidity() const;
 
 };
 

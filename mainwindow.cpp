@@ -38,7 +38,7 @@ void MainWindow::connectQss(){
 void MainWindow::onClicked()
 {
     QPushButton* pButton = qobject_cast<QPushButton*>(sender()); //get sender button
-    ie_->PushBack(ie_->AVIABLE_TRANSFORMATIONS[pButton->objectName()]);
+    ie_->pushBack(ie_->AVIABLE_TRANSFORMATIONS[pButton->objectName()]);
     return;
 }
 void MainWindow::bindConnect(){
