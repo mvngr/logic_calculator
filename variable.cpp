@@ -16,6 +16,15 @@ Variable::Variable(QChar name, int numberVariables, int positionVariable){
     setName(name);
     setVars(numberVariables, positionVariable);
 }
+bool Variable::operator > (const Variable &other)
+{
+   return name_ > other.name_;
+}
+bool Variable::operator < (const Variable &other)
+{
+   return name_ < other.name_;
+}
+
 Variable Variable::conjunction(Variable other){
     Variable v = * new Variable(makeName(getName(), " * ", other.getName()));
     QList<bool> temp = * new QList<bool>;
@@ -110,10 +119,10 @@ void Variable::setVars(int index, int size){
     }
     return;
 }
-QString Variable::getName(){
+QString Variable::getName() const{
     return name_;
 }
-QList<bool> Variable::getVars(){
+QList<bool> Variable::getVars() const{
     return vars_;
 }
 QString Variable::makeName(QString first, QString operation, QString second){

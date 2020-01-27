@@ -28,8 +28,11 @@ public:
     void setVars(QList<bool> vars);
     void setVars(int index, int size);
 
-    QString getName();
-    QList<bool> getVars();
+    QString getName() const;
+    QList<bool> getVars() const;
+
+    bool operator > (const Variable &other);
+    bool operator < (const Variable &other);
 
 private:
     void debugVars();
