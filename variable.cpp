@@ -3,7 +3,7 @@
 Variable::Variable(const QChar name){
     setName(name);
 }
-Variable::Variable(const QString name){
+Variable::Variable(const QString &name){
     setName(name);
 }
 Variable::Variable(const QChar name, const QList<bool> * vars){
@@ -36,7 +36,7 @@ Variable Variable::disjunction(const Variable &other) const{
     Variable v(makeName(getName(), " + ", other.getName()));
     QList<bool> temp;
     for(int i = 0; i < vars_.size(); i++)
-        temp.push_back(vars_[i] + other.vars_[i]);
+        temp.push_back(vars_[i] || other.vars_[i]);
     v.setVars(temp);
     return v;
 }
@@ -95,13 +95,11 @@ Variable Variable::negation(){
     return *this;
 }
 
-void Variable::setName(const QString name){
+void Variable::setName(const QString &name){
     name_ = name;
-    return;
 }
 void Variable::setVars(const QList<bool> &vars){
     vars_ = vars;
-    return;
 }
 void Variable::setVars(const int index, const int size){
     vars_.clear();
@@ -116,7 +114,6 @@ void Variable::setVars(const int index, const int size){
         }
         vars_.push_back(switcher);
     }
-    return;
 }
 QString Variable::getName() const{
     return name_;
@@ -124,7 +121,7 @@ QString Variable::getName() const{
 QList<bool> Variable::getVars() const{
     return vars_;
 }
-QString Variable::makeName(const QString first, const QString operation, const QString second) const{
+QString Variable::makeName(const QString &first, const QString &operation, const QString &second) const{
     return first + operation + second;
 }
 int Variable::pow2(const int power) const{

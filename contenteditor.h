@@ -10,8 +10,8 @@ class ContentEditor
 public:
     ContentEditor(QPlainTextEdit *plainTextEdit);
     void printTruthTable(const QList<QString> &title, const QList<QList<bool>> &data);
-    void printSKNF(QString sknf) const;
-    void printSDNF(QString sdnf) const;
+    void printSKNF(const QString &sknf) const;
+    void printSDNF(const QString &sdnf) const;
 
     const int minimumColumnCharSize = 5;
 private:
@@ -23,7 +23,7 @@ private:
     QString makeLine() const;
     QString makeTitle(const QList<QString> &title) const;
     QString makeData(const QList<QList<bool> > &data) const;
-    QString centerAlign(QString text, const int cellSize) const;
+    QString centerAlign(const QString &text, const int cellSize) const;
 };
 
 #endif // CONTENTEDITOR_H

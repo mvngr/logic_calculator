@@ -8,7 +8,7 @@ class Variable
 {
 public:
     Variable(const QChar name);
-    Variable(const QString name);
+    Variable(const QString &name);
     Variable(const QChar name, const QList<bool> *vars);
     Variable(QChar name, int numberVariables, int positionVariable);
 
@@ -24,7 +24,7 @@ public:
     Variable equivalent(const Variable &other) const;
     Variable negation();
 
-    void setName(const QString name);
+    void setName(const QString &name);
     void setVars(const QList<bool> &vars);
     void setVars(const int index, const int size);
 
@@ -37,7 +37,7 @@ public:
 private:
     void debugVars();
     int pow2(const int power) const;
-    QString makeName(const QString first, const QString operation, const QString second) const;
+    QString makeName(const QString &first, const QString &operation, const QString &second) const;
     QString name_;
     QList<bool> vars_;
 };

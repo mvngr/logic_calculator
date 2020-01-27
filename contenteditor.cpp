@@ -24,7 +24,7 @@ QList<int> ContentEditor::getSize(const QList<QString> &title) const {
         size.append(temp.length() > minimumColumnCharSize ? temp.length() : minimumColumnCharSize);
     return size;
 }
-QString ContentEditor::centerAlign(const QString text, const int cellSize) const {
+QString ContentEditor::centerAlign(const QString &text, const int cellSize) const {
     QString result;
     int spaceCount = text.length() > cellSize ? 0 : cellSize - text.length();
     result.append(makeString(' ', spaceCount / 2));
@@ -48,7 +48,9 @@ QString ContentEditor::makeLine() const {
     for(int i = 0; i < cellSize_.length(); i++){
         result.append(makeString('-', cellSize_[i]));
         if(i + 1 != cellSize_.length())
+        {
             result.append('+');
+        }
     }
     return result;
 }
@@ -59,16 +61,16 @@ QString ContentEditor::makeData(const QList<QList<bool>> &data) const {
     for(int i = 0; i < data[0].length(); i++){
         result.append('\n');
         for(int j = 0; j < data.length(); j++){
-            result.append(centerAlign(data[j][i] ? "1" : "0", cellSize_.at(j)));
+            result.append(centerAlign(QString(data[j][i] ? "1" : "0"), cellSize_.at(j)));
             if(j + 1 != data.length() )
                 result.append('|');
         }
     }
     return result;
 }
-void ContentEditor::printSKNF(QString sknf) const {
+void ContentEditor::printSKNF(const QString &sknf) const {
     pte_->setPlainText(pte_->toPlainText() + "\n\nСКНФ: " + sknf);
 }
-void ContentEditor::printSDNF(QString sdnf) const {
+void ContentEditor::printSDNF(const QString &sdnf) const {
     pte_->setPlainText(pte_->toPlainText() + "\n\nСДНФ: " + sdnf);
 }

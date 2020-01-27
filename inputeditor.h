@@ -30,9 +30,9 @@ public:
         {"negation", "!"}
     };
 
-    void pushBack(const QString str);
+    void pushBack(const QString &str);
     QString toString() const;
-    bool parse(QString str);
+    bool parse(const QString &str);
     QList<QString> *getVars();
 
 private:

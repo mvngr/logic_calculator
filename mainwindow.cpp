@@ -16,9 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete ui;
     delete logic_;
     delete ie_;
-    delete ui;
 }
 void MainWindow::inputPressed(){
     on_compute_clicked();
@@ -32,7 +32,8 @@ void MainWindow::connectQss(){
 void MainWindow::onClicked()
 {
     QPushButton* pButton = qobject_cast<QPushButton*>(sender()); //get sender button
-    ie_->pushBack(ie_->AVIABLE_TRANSFORMATIONS[pButton->objectName()]);
+    if(pButton)
+        ie_->pushBack(ie_->AVIABLE_TRANSFORMATIONS[pButton->objectName()]);
 }
 void MainWindow::bindConnect() const{
     connect(ui->input, &QLineEdit::returnPressed, this, &MainWindow::inputPressed);

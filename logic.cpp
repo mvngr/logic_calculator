@@ -2,15 +2,7 @@
 
 #include "logic.h"
 
-Logic::Logic(QPlainTextEdit *output){
-    ce_ = new ContentEditor(output);
-    v_ = new QList<QString>;
-}
-Logic::Logic(QList<QString> *v, QPlainTextEdit *output)
-{
-    ce_ = new ContentEditor(output);
-    setVars(v);
-}
+Logic::Logic(QPlainTextEdit *output) : v_(new QList<QString>), ce_(new ContentEditor(output)){}
 Logic::~Logic(){
     delete v_;
     delete ce_;
@@ -46,11 +38,12 @@ void Logic::negation(QList<QString> *v){
                 insertWithReplace(v, newVar, i, i+1);
         }
 }
-void Logic::binaryOperation(QList<QString> *v, const QString operation){
+void Logic::binaryOperation(QList<QString> *v, const QString &operation){
     for(int i = 0; i < v->length(); i++)
         if(v->at(i) == operation
                 && i + 1 != v->length() && i - 1 != -1
-                && map_.contains(v->at(i + 1)) && map_.contains(v->at(i - 1))){
+                && map_.contains(v->at(i + 1)) && map_.contains(v->at(i - 1)))
+        {
             Variable newVar("NULL");
             switch (BINARY_OPERATIONS_TO_NUM_[BINARY_OPERATIONS_[operation]]) {
             case 1: newVar = getVariable(v->at(i - 1)).conjunction(getVariable(v->at(i + 1)));          break;
@@ -82,11 +75,13 @@ void Logic::makeSKNF(){
         }
         QList<bool> truthTable = vars_.last().getVars();
         for(int i = 0; i < truthTable.length(); i++)
-            if(truthTable[i] == false){
+            if(!truthTable[i]){
                 ans += "( ";
                 for(int j = 0; j < degree; j++)
+                {
                     ans += j + 1 != degree ? (vars_[j].getVars()[i] ? "! " + vars_[j].getName() : vars_[j].getName())  + " + "
                                            : (vars_[j].getVars()[i] ? "! " + vars_[j].getName() : vars_[j].getName());
+                }
                 ans += " ) * ";
             }
         if(ans.length() != 0) // clear last " * "
@@ -106,18 +101,19 @@ void Logic::makeSDNF(){
         }
         QList<bool> truthTable(vars_.last().getVars());
         for(int i = 0; i < truthTable.length(); i++)
-            if(truthTable[i] == true){
+            if(truthTable[i]){
                 ans += "( ";
                 for(int j = 0; j < degree; j++)
+                {
                     ans += j + 1 != degree ? (vars_[j].getVars()[i] ? vars_[j].getName() : "! " + vars_[j].getName())  + " * "
                                            : (vars_[j].getVars()[i] ? vars_[j].getName() : "! " + vars_[j].getName());
+                }
                 ans += " ) + ";
             }
         if(ans.length() != 0) // clear last " + "
             ans.remove(ans.length() - 3, 2);
         ce_->printSDNF(ans);
     }
-    return;
 }
 void Logic::findBrackets(QList<QString> *v){
     QList<int> bracket_ind;
@@ -145,7 +141,7 @@ QList<QString> * Logic::subString(QList<QString> *v, int begin, const int end){
     while(begin++ < end);
     return new_v;
 }
-void Logic::insertWithReplace(QList<QString> *v, const Variable variable, const int begin, const int end){
+void Logic::insertWithReplace(QList<QString> *v, const Variable &variable, const int begin, const int end){
     if(!map_.contains(variable.getName())){
         vars_.push_back(variable);
         map_[variable.getName()] = vars_.length() - 1;
@@ -153,16 +149,17 @@ void Logic::insertWithReplace(QList<QString> *v, const Variable variable, const 
     for(int i = begin; i <= end; i++)
         v->removeAt(begin);
     v->insert(begin, variable.getName());
-    return;
 }
-Variable Logic::getVariable(const QString name) const{
+Variable Logic::getVariable(const QString &name) const{
     return map_.contains(name) ? vars_.at(map_[name]) : Variable("NULL");
 }
-void Logic::showError(const QString logicOperation, const QString error) const{
+void Logic::showError(const QString &logicOperation, const QString &error) const{
     QMessageBox::information(nullptr, "Ошибка: " + logicOperation, error);
 }
 void Logic::fillVars(){
     vars_.clear();
+    if(!v_)
+        return;
     for(int i = 0; i < v_->length(); i++){
         QChar c = v_->at(i).at(0);
         if(AVIABLE_NAME_OF_VARS_.indexOf(v_->at(i)) != -1 && !isRepeat( c )){

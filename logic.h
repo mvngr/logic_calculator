@@ -14,7 +14,6 @@ class Logic
 {
 public:
     Logic(QPlainTextEdit *output);
-    Logic(QList<QString> *v, QPlainTextEdit *output);
     ~Logic();
     void setVars(QList<QString> *v);
     void compute();
@@ -28,11 +27,11 @@ private:
     void negation(QList<QString> *v);
     void findBrackets(QList<QString> *v);
     QList<QString> * subString(QList<QString> *v, int begin, const int end);
-    void binaryOperation(QList<QString> *v, const QString operation);
+    void binaryOperation(QList<QString> *v, const QString &operation);
 
-    void showError(const QString logicOperation, const QString error) const;
-    void insertWithReplace(QList<QString> *v, const Variable variable, const int begin, const int end);
-    Variable getVariable(const QString name) const;
+    void showError(const QString &logicOperation, const QString &error) const;
+    void insertWithReplace(QList<QString> *v, const Variable &variable, const int begin, const int end);
+    Variable getVariable(const QString &name) const;
 
     void fillVars();
     void fillMap();
