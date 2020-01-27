@@ -22,7 +22,7 @@ public:
 private slots:
     void inputPressed();
     void onClicked();
-    void bindConnect();
+    void bindConnect() const;
 
     void on_compute_clicked();
 

@@ -7,12 +7,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     connectQss();
     ui->setupUi(this);
-    QList<bool> tempList = * new QList<bool>{true, true, false, false};
-    QList<bool> tempList2 = * new QList<bool>{true, false, true, false};
-    QChar c = 'a', c2 = 'b';
-    Variable v = * new Variable(c, &tempList);
-    Variable v2 = * new Variable(c2, &tempList2);
-    Variable v3 = v.disjunction(v2);
 
     ie_ = new InputEditor(ui->input);
     logic_ = new Logic(ui->result);
@@ -22,37 +16,35 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete logic_;
+    delete ie_;
     delete ui;
 }
 void MainWindow::inputPressed(){
     on_compute_clicked();
-    return;
 }
 void MainWindow::connectQss(){
     QFile styleF;
     styleF.setFileName(":/qss/qss/style.css");
     styleF.open(QFile::ReadOnly);
     qApp->setStyleSheet(styleF.readAll());
-    return;
 }
 void MainWindow::onClicked()
 {
     QPushButton* pButton = qobject_cast<QPushButton*>(sender()); //get sender button
     ie_->pushBack(ie_->AVIABLE_TRANSFORMATIONS[pButton->objectName()]);
-    return;
 }
-void MainWindow::bindConnect(){
-    connect(ui->input, SIGNAL(returnPressed()), this, SLOT(inputPressed()));
-    connect(ui->conjunction, SIGNAL(clicked()), this, SLOT(onClicked()));
-    connect(ui->disjunction, SIGNAL(clicked()), this, SLOT(onClicked()));
-    connect(ui->exclusive_disjunction, SIGNAL(clicked()), this, SLOT(onClicked()));
-    connect(ui->not_and, SIGNAL(clicked()), this, SLOT(onClicked()));
-    connect(ui->not_or, SIGNAL(clicked()), this, SLOT(onClicked()));
-    connect(ui->implication, SIGNAL(clicked()), this, SLOT(onClicked()));
-    connect(ui->converse, SIGNAL(clicked()), this, SLOT(onClicked()));
-    connect(ui->equivalent, SIGNAL(clicked()), this, SLOT(onClicked()));
-    connect(ui->negation, SIGNAL(clicked()), this, SLOT(onClicked()));
-    return;
+void MainWindow::bindConnect() const{
+    connect(ui->input, &QLineEdit::returnPressed, this, &MainWindow::inputPressed);
+    connect(ui->conjunction, &QPushButton::clicked, this, &MainWindow::onClicked);
+    connect(ui->disjunction, &QPushButton::clicked, this, &MainWindow::onClicked);
+    connect(ui->exclusive_disjunction, &QPushButton::clicked, this, &MainWindow::onClicked);
+    connect(ui->not_and, &QPushButton::clicked, this, &MainWindow::onClicked);
+    connect(ui->not_or, &QPushButton::clicked, this, &MainWindow::onClicked);
+    connect(ui->implication, &QPushButton::clicked, this, &MainWindow::onClicked);
+    connect(ui->converse, &QPushButton::clicked, this, &MainWindow::onClicked);
+    connect(ui->equivalent, &QPushButton::clicked, this, &MainWindow::onClicked);
+    connect(ui->negation, &QPushButton::clicked, this, &MainWindow::onClicked);
 }
 
 void MainWindow::on_compute_clicked()
@@ -62,7 +54,6 @@ void MainWindow::on_compute_clicked()
         logic_->setVars(ie_->getVars());
         logic_->compute();
     }
-    return;
 }
 
 void MainWindow::on_f5_clicked()
@@ -72,7 +63,6 @@ void MainWindow::on_f5_clicked()
         logic_->setVars(ie_->getVars());
         logic_->makeSKNF();
     }
-    return;
 }
 
 void MainWindow::on_f4_clicked()
@@ -82,5 +72,4 @@ void MainWindow::on_f4_clicked()
         logic_->setVars(ie_->getVars());
         logic_->makeSDNF();
     }
-    return;
 }
