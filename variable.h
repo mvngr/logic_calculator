@@ -7,26 +7,26 @@
 class Variable
 {
 public:
-    Variable(QChar name);
-    Variable(QString name);
+    Variable(const QChar name);
+    Variable(const QString name);
+    Variable(const QChar name, const QList<bool> *vars);
     Variable(QChar name, int numberVariables, int positionVariable);
-    Variable(QChar name, QList<bool> *vars);
 
     //Some logical operations cannot be easily converted to statements
     //Therefore, operators have replaced by basic functions
-    Variable conjunction(Variable other);
-    Variable disjunction(Variable other);
-    Variable implication(Variable other);
-    Variable converse(Variable other);
-    Variable notAnd(Variable other);
-    Variable notOr(Variable other);
-    Variable exclusiveDisjunction(Variable other);
-    Variable equivalent(Variable other);
+    Variable conjunction(const Variable &other) const;
+    Variable disjunction(const Variable &other) const;
+    Variable implication(const Variable &other) const;
+    Variable converse(const Variable &other) const;
+    Variable notAnd(const Variable &other) const;
+    Variable notOr(const Variable &other) const;
+    Variable exclusiveDisjunction(const Variable &other) const;
+    Variable equivalent(const Variable &other) const;
     Variable negation();
 
-    void setName(QString name);
-    void setVars(QList<bool> vars);
-    void setVars(int index, int size);
+    void setName(const QString name);
+    void setVars(const QList<bool> &vars);
+    void setVars(const int index, const int size);
 
     QString getName() const;
     QList<bool> getVars() const;
@@ -36,8 +36,8 @@ public:
 
 private:
     void debugVars();
-    int pow2(int power);
-    QString makeName(QString first, QString operation, QString second);
+    int pow2(const int power) const;
+    QString makeName(const QString first, const QString operation, const QString second) const;
     QString name_;
     QList<bool> vars_;
 };

@@ -1,18 +1,17 @@
 #include "variable.h"
 
-Variable::Variable(QChar name){
+Variable::Variable(const QChar name){
     setName(name);
-    vars_ = * new QList<bool>;
 }
-Variable::Variable(QString name){
+Variable::Variable(const QString name){
     setName(name);
-    vars_ = * new QList<bool>;
 }
-Variable::Variable(QChar name, QList<bool> * vars){
+Variable::Variable(const QChar name, const QList<bool> * vars){
     setName(name);
-    setVars(*vars);
+    if(vars)
+        setVars(*vars);
 }
-Variable::Variable(QChar name, int numberVariables, int positionVariable){
+Variable::Variable(const QChar name, const int numberVariables, const int positionVariable){
     setName(name);
     setVars(numberVariables, positionVariable);
 }
@@ -25,87 +24,87 @@ bool Variable::operator < (const Variable &other)
    return name_ < other.name_;
 }
 
-Variable Variable::conjunction(Variable other){
-    Variable v = * new Variable(makeName(getName(), " * ", other.getName()));
-    QList<bool> temp = * new QList<bool>;
+Variable Variable::conjunction(const Variable &other) const{
+    Variable v(makeName(getName(), " * ", other.getName()));
+    QList<bool> temp;
     for(int i = 0; i < vars_.size(); i++)
-        temp.push_back(vars_[i] * other.getVars()[i]);
+        temp.push_back(vars_[i] && other.vars_[i]);
     v.setVars(temp);
     return v;
 }
-Variable Variable::disjunction(Variable other){
-    Variable v = * new Variable(makeName(getName(), " + ", other.getName()));
-    QList<bool> temp = * new QList<bool>;
+Variable Variable::disjunction(const Variable &other) const{
+    Variable v(makeName(getName(), " + ", other.getName()));
+    QList<bool> temp;
     for(int i = 0; i < vars_.size(); i++)
-        temp.push_back(vars_[i] + other.getVars()[i]);
+        temp.push_back(vars_[i] + other.vars_[i]);
     v.setVars(temp);
     return v;
 }
-Variable Variable::implication(Variable other){
-    Variable v = * new Variable(makeName(getName(), " -> ", other.getName()));
-    QList<bool> temp = * new QList<bool>;
+Variable Variable::implication(const Variable &other) const{
+    Variable v(makeName(getName(), " -> ", other.getName()));
+    QList<bool> temp;
     for(int i = 0; i < vars_.size(); i++)
-        temp.push_back(vars_[i] == 1 && other.getVars()[i] == 0 ? false : true);
+        temp.push_back(( vars_[i] == true && other.vars_[i] == false ) ? false : true);
     v.setVars(temp);
     return v;
 }
-Variable Variable::converse(Variable other){
-    Variable v = * new Variable(makeName(getName(), " <- ", other.getName()));
-    QList<bool> temp = * new QList<bool>;
+Variable Variable::converse(const Variable &other) const{
+    Variable v(makeName(getName(), " <- ", other.getName()));
+    QList<bool> temp;
     for(int i = 0; i < vars_.size(); i++)
-        temp.push_back(vars_[i] == 0 && other.getVars()[i] == 1 ? false : true);
+        temp.push_back(( vars_[i] == false && other.vars_[i] == true ) ? false : true);
     v.setVars(temp);
     return v;
 }
-Variable Variable::notAnd(Variable other){
-    Variable v = * new Variable(makeName(getName(), " | ", other.getName()));
-    QList<bool> temp = * new QList<bool>;
+Variable Variable::notAnd(const Variable &other) const{
+    Variable v(makeName(getName(), " | ", other.getName()));
+    QList<bool> temp;
     for(int i = 0; i < vars_.size(); i++)
-        temp.push_back(vars_[i] == 1 && other.getVars()[i] == 1 ? false : true);
+        temp.push_back(( vars_[i] == true && other.vars_[i] == true ) ? false : true);
     v.setVars(temp);
     return v;
 }
-Variable Variable::notOr(Variable other){
-    Variable v = * new Variable(makeName(getName(), " # ", other.getName()));
-    QList<bool> temp = * new QList<bool>;
+Variable Variable::notOr(const Variable &other) const{
+    Variable v(makeName(getName(), " # ", other.getName()));
+    QList<bool> temp;
     for(int i = 0; i < vars_.size(); i++)
-        temp.push_back(vars_[i] == 0 && other.getVars()[i] == 0 ? true : false);
+        temp.push_back(vars_[i] == false && other.vars_[i] == false);
     v.setVars(temp);
     return v;
 }
-Variable Variable::exclusiveDisjunction(Variable other){
-    Variable v = * new Variable(makeName(getName(), " ^ ", other.getName()));
-    QList<bool> temp = * new QList<bool>;
+Variable Variable::exclusiveDisjunction(const Variable &other) const{
+    Variable v(makeName(getName(), " ^ ", other.getName()));
+    QList<bool> temp;
     for(int i = 0; i < vars_.size(); i++)
-        temp.push_back(vars_[i] == other.getVars()[i] ? false : true);
+        temp.push_back(vars_[i] == other.vars_[i] ? false : true);
     v.setVars(temp);
     return v;
 }
-Variable Variable::equivalent(Variable other){
-    Variable v = * new Variable(makeName(getName(), " ~ ", other.getName()));
-    QList<bool> temp = * new QList<bool>;
+Variable Variable::equivalent(const Variable &other) const{
+    Variable v(makeName(getName(), " ~ ", other.getName()));
+    QList<bool> temp;
     for(int i = 0; i < vars_.size(); i++)
-        temp.push_back(vars_[i] == other.getVars()[i] ? true : false);
+        temp.push_back(vars_[i] == other.vars_[i] ? true : false);
     v.setVars(temp);
     return v;
 }
 Variable Variable::negation(){
-    setName(* new QString("! " + getName()));
+    setName(QString("! " + getName()));
     for(int i = 0; i < vars_.size(); i++)
         vars_[i] = !vars_[i];
     return *this;
 }
 
-void Variable::setName(QString name){
+void Variable::setName(const QString name){
     name_ = name;
     return;
 }
-void Variable::setVars(QList<bool> vars){
+void Variable::setVars(const QList<bool> &vars){
     vars_ = vars;
     return;
 }
-void Variable::setVars(int index, int size){
-    vars_ = * new QList<bool>;
+void Variable::setVars(const int index, const int size){
+    vars_.clear();
     int switcherCounter = 0;
     bool switcher = false;
     for(int i = 0; i < pow2(size); i++){
@@ -125,9 +124,9 @@ QString Variable::getName() const{
 QList<bool> Variable::getVars() const{
     return vars_;
 }
-QString Variable::makeName(QString first, QString operation, QString second){
+QString Variable::makeName(const QString first, const QString operation, const QString second) const{
     return first + operation + second;
 }
-int Variable::pow2(int power){
+int Variable::pow2(const int power) const{
     return 1 << power;
 }
