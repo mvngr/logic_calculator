@@ -5,11 +5,8 @@
 * Вывод таблицы истинности для выражения
 
 ### Описание классов:
-* [MainWindwow](https://github.com/mvngr/logic_calculator/tree/master#mainwindow)
-* [InputEditor](https://github.com/mvngr/logic_calculator/tree/master#inputeditor)
-* [Logic](https://github.com/mvngr/logic_calculator/tree/master#logic)
-* [ContentEditor](https://github.com/mvngr/logic_calculator/tree/master#contenteditor)
-* [Variable](https://github.com/mvngr/logic_calculator/tree/master#variable)
+
+Полное описание работы программы вы можете найти в документации к проекту - https://mvngr.github.io/logic_calculator_doc/html/index.html
 
 ## Условные обозначения
 
