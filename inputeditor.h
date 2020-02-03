@@ -6,6 +6,9 @@
 #include <QMessageBox>
 #include <QMap>
 
+/*!
+ * \brief InputEditor - Класс отвечает за обработку данных, вводимых в поле ввода данных
+ */
 class InputEditor
 {
 public:
@@ -17,7 +20,7 @@ public:
         "A" , "B" , "C" , "D" , "E" , "F" , "G" , "X" , "Y" , "Z",
         "a" , "b" , "c" , "d" , "e" , "f" , "g" , "x" , "y" , "z",
         "(" , ")"
-    };
+    }; ///Словарь доступных символов
     const QMap<QString,QString> AVIABLE_TRANSFORMATIONS {
         {"conjunction", "*"},
         {"disjunction", "+"},
@@ -28,17 +31,17 @@ public:
         {"converse", "<-"},
         {"equivalent", "~"},
         {"negation", "!"}
-    };
+    }; ///словарь доступных действий
 
-    void pushBack(const QString &str);
-    QString toString() const;
-    bool parse(const QString &str);
-    QList<QString> *getVars();
+    void pushBack(const QString &str); //Добавляет определенные данные в конец внутреннего массива
+    QString toString() const; //Преобразует внутренний массив в строку
+    bool parse(const QString &str); //Парсит введенную строку
+    QList<QString> *getVars(); //Выдает указатель на внутренний массив данных
 
 private:
-    QLineEdit *input_;
-    QList<QString> *v_;
-    void updateInput();
+    QLineEdit *input_; ///Используется для управления полем ввода данных
+    QList<QString> *v_; ///Внутренний массив для хранения данных из поля ввода данных
+    void updateInput(); //Обновляет поле для ввода данных
     bool isValidity() const;
 
 };

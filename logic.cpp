@@ -7,6 +7,11 @@ Logic::~Logic(){
     delete v_;
     delete ce_;
 }
+
+/*!
+ * \brief Logic::setVars Добавляет массив логических переменных в внутренний массив
+ * \param v массив логических переменных
+ */
 void Logic::setVars(QList<QString> *v){
     v_ = v;
     fillVars();
@@ -14,10 +19,19 @@ void Logic::setVars(QList<QString> *v){
     fillMap();
     makeBoolArrays();
 }
+
+/*!
+ * \brief Logic::compute Инициирует вычисления
+ */
 void Logic::compute(){
     computeLogicalAction(v_);
     ce_->printTruthTable(getVarsTitle(), getVarsData());
 }
+
+/*!
+ * \brief Logic::computeLogicalAction Инициирует вычисление таблицы истинности
+ * \param v указатель на строки с логическими действиями
+ */
 void Logic::computeLogicalAction(QList<QString> *v){
     findBrackets(v);
     negation(v);
@@ -30,6 +44,11 @@ void Logic::computeLogicalAction(QList<QString> *v){
     binaryOperation(v, "<-");
     binaryOperation(v, "~");
 }
+
+/*!
+ * \brief Logic::negation Используется для выполнения отрицания у всей входной строки
+ * \param v указатель на строки с логическими действиями
+ */
 void Logic::negation(QList<QString> *v){
     for(int i = 0; i < v->length(); i++)
         if(v->at(i) == "!" && i + 1 != v->length() && map_.contains(v->at(i + 1))){
@@ -38,6 +57,12 @@ void Logic::negation(QList<QString> *v){
                 insertWithReplace(v, newVar, i, i+1);
         }
 }
+
+/*!
+ * \brief Logic::binaryOperation Используется для выполнения входной операции у всей входной строки
+ * \param v указатель на строки с логическими действиями
+ * \param operation необходимая операция в виде строки
+ */
 void Logic::binaryOperation(QList<QString> *v, const QString &operation){
     for(int i = 0; i < v->length(); i++)
         if(v->at(i) == operation
@@ -63,6 +88,10 @@ void Logic::binaryOperation(QList<QString> *v, const QString &operation){
             i--;
         }
 }
+
+/*!
+ * \brief Logic::makeSKNF создает Совершенную Конъюнктивную Нормальную Форму
+ */
 void Logic::makeSKNF(){
     compute();
     if(vars_.length() != 0){
@@ -89,6 +118,10 @@ void Logic::makeSKNF(){
         ce_->printSKNF(ans);
     }
 }
+
+/*!
+ * \brief Logic::makeSDNF создает Совершенную Дизъюнктивную Нормальную Форму
+ */
 void Logic::makeSDNF(){
     compute();
     if(vars_.length() != 0){
@@ -115,6 +148,11 @@ void Logic::makeSDNF(){
         ce_->printSDNF(ans);
     }
 }
+
+/*!
+ * \brief Logic::findBrackets Находит выражения в скобках и высчитывает их
+ * \param v указатель на строки с логическими действиями
+ */
 void Logic::findBrackets(QList<QString> *v){
     QList<int> bracket_ind;
     for(int i = 0; i < v->length(); i++){
@@ -134,6 +172,14 @@ void Logic::findBrackets(QList<QString> *v){
         }
     }
 }
+
+/*!
+ * \brief Logic::subString Возвращает подстроку из строки
+ * \param v указатель на строки с логическими действиями
+ * \param begin индекс начала
+ * \param end индекс конца
+ * \return новые строки с логическими действиями
+ */
 QList<QString> * Logic::subString(QList<QString> *v, int begin, const int end){
     QList<QString> * new_v = new QList<QString>;
     do
@@ -141,6 +187,14 @@ QList<QString> * Logic::subString(QList<QString> *v, int begin, const int end){
     while(begin++ < end);
     return new_v;
 }
+
+/*!
+ * \brief Logic::insertWithReplace Выполняет внедрение логической операции в внутренние массивы взамен переменным(ой) и оператора
+ * \param v указатель на строки с логическими действиями
+ * \param variable переменная, у котороый выполняется внедрение логической операции
+ * \param begin индекс начала
+ * \param end индекс конца
+ */
 void Logic::insertWithReplace(QList<QString> *v, const Variable &variable, const int begin, const int end){
     if(!map_.contains(variable.getName())){
         vars_.push_back(variable);
@@ -153,9 +207,19 @@ void Logic::insertWithReplace(QList<QString> *v, const Variable &variable, const
 Variable Logic::getVariable(const QString &name) const{
     return map_.contains(name) ? vars_.at(map_[name]) : Variable("NULL");
 }
+
+/*!
+ * \brief Logic::showError Выводит в пользовательский интерфейс сообщения с ошибками
+ * \param logicOperation логическая операция, при которой произошла ошибка
+ * \param error текст ошибки
+ */
 void Logic::showError(const QString &logicOperation, const QString &error) const{
     QMessageBox::information(nullptr, "Ошибка: " + logicOperation, error);
 }
+
+/*!
+ * \brief Logic::fillVars Добавляет логические переменные в vars_ из строк v_
+ */
 void Logic::fillVars(){
     vars_.clear();
     if(!v_)
@@ -173,11 +237,21 @@ void Logic::fillVars(){
         }
     }
 }
+
+/*!
+ * \brief Logic::fillMap Заполняет карту map_
+ */
 void Logic::fillMap(){
     map_.clear();
     for(int i = 0; i < vars_.length(); i++)
         map_.insert(vars_[i].getName(), i);
 }
+
+/*!
+ * \brief Logic::isRepeat Проверяет на повторение названия имен в vars_
+ * \param c символ, который нужно проверить
+ * \return повторяется ли символ
+ */
 bool Logic::isRepeat(const QChar c) const{
     bool res = false;
     for(int i = 0; i < vars_.length(); i++)
@@ -188,20 +262,38 @@ bool Logic::isRepeat(const QChar c) const{
         }
     return res;
 }
+
+/*!
+ * \brief Logic::sortVars Сортирует массив vars_ по названиям
+ */
 void Logic::sortVars(){
     std::sort(vars_.begin(), vars_.end());
 }
+
+/*!
+ * \brief Logic::makeBoolArrays Создает массив начальных данных у переменных
+ */
 void Logic::makeBoolArrays(){
     int length = vars_.length();
     for(int i = 0; i < length; i++)
         vars_[i].setVars(i, length);
 }
+
+/*!
+ * \brief Logic::getVarsTitle Отдает массив имен логических переменных
+ * \return массив имен логических переменных
+ */
 QList<QString> Logic::getVarsTitle() const{
     QList<QString> result;
     for(const Variable &item : vars_)
         result.push_back(item.getName());
     return result;
 }
+
+/*!
+ * \brief Logic::getVarsData Отдает массив всех данных из логических переменных
+ * \return все данные из логических переменных
+ */
 QList<QList<bool>> Logic::getVarsData() const{
     QList<QList<bool>> result;
     for(const Variable &item : vars_)
