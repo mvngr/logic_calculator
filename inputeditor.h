@@ -43,6 +43,7 @@ private:
     QList<QString> *v_; ///Внутренний массив для хранения данных из поля ввода данных
     void updateInput(); //Обновляет поле для ввода данных
     bool isValidity() const;
+    QString normalizeString(const QString &input) const;
 
 };
 

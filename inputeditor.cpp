@@ -1,5 +1,7 @@
 #include "inputeditor.h"
 
+#include <QString>
+
 InputEditor::InputEditor(QLineEdit *input) : input_(input), v_(new QList<QString>){}
 InputEditor::~InputEditor(){
     //delete v_; в соседнем классе чистится v_ (эх, костылики)
@@ -48,9 +50,10 @@ bool InputEditor::isValidity() const {
  * \return смогло ли произойти чтение
  */
 bool InputEditor::parse(const QString &str){
+    QString prettyString = normalizeString(str); //приводим строку с виду пробел значение пробел значение
     bool res = true;
     QList<int> errors;
-    QStringList sl = str.trimmed().split(" ");
+    QStringList sl = prettyString.trimmed().split(" ");
     for(int i = 0; i < sl.count(); i++)
         if(AVIABLE_WORDS.indexOf(sl[i]) == -1)
         {
@@ -67,5 +70,38 @@ bool InputEditor::parse(const QString &str){
         QMessageBox::warning(nullptr, "Ошибка", msg);
         res = false;
     }
+    return res;
+}
+
+/*!
+ * \brief InputEditor::normalizeString приводит входную строку в вид значение пробел значение пробел
+ * \param input входная строка
+ * \return Отформатированная строка
+ *
+ * \example
+ * Вход: A*B+    C
+ * Выход: A * B + C
+ */
+QString InputEditor::normalizeString(const QString &input) const
+{
+    QString res; //результирующая строка
+    QString inStr = input; //копируем входную строку
+    inStr.remove(" ");
+
+    for(int i = 0; i < inStr.size(); i++)
+    {
+        auto foundIterator = std::find_if(AVIABLE_WORDS.cbegin(), AVIABLE_WORDS.cend(), [&inStr, &i](const QString &value){ return inStr[i] == value.at(0); }); //ищем совпадение с допустимыми словами
+
+        if(foundIterator == AVIABLE_WORDS.cend())
+        {
+            //res.push_back(' '); //если ничего не нашли то добавляем пробел
+        }
+        else
+        {
+            res.push_back((*foundIterator) + ' '); //Добавляем доступное слово и пробел
+            i += (*foundIterator).size() - 1; //Добавляем к i сколько надо, если длина доступного слова больше 1
+        }
+    }
+
     return res;
 }
