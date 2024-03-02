@@ -1,0 +1,28 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "*" ]
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  build:
+    name: Ubuntu
+    runs-on: ubuntu-latest
+    container: ubuntu:focal
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: prepare instance
+      run: |
+        export DEBIAN_FRONTEND=noninteractive
+        apt update
+        apt install -y build-essential qt5-qmake qtbase5-dev qtdeclarative5-dev
+
+    - name: qmake
+      run: qmake ./LogicCalc.pro
+
+    - name: Build
+      run: make -j$(nproc)
