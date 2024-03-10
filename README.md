@@ -12,6 +12,10 @@
     A * ( B + ( C -> ! A ) + B * C )
     A * B + C -> ( D | A # B <- C ) ^ ! D ~ A
 
+## Web версия
+
+Вы можете использовать web версию логического калькулятора. Для этого достаточно перейти по ссылке: https://mvngr.github.io/logic_calculator/
+
 ## Скачивание
 
 Вы можете скачать [бинарные файлы для Windows 7-10 x64](https://github.com/mvngr/logic_calculator/releases/download/1.4/LogicCalc_bin_win_amd64.zip)
